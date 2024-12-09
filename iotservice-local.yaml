@@ -1,0 +1,85 @@
+server:
+  port: 10003
+  servlet:
+    encoding:
+      charset: UTF-8
+      force: true
+    context-path: /iot
+  compression:
+    enabled: true #开启数据压缩
+    mime-types: application/json,application/xml,text/html,text/xml,text/plain
+    min-response-size: 2048
+logging:
+  file:
+    path: log/wookit
+  level:
+    root: info
+    "[javax.management]": INFO
+    "[org.apache.http]": INFO
+    "[org.apache.tomcat.util.net.NioEndpoint]": INFO
+    "[sun.rmi]": INFO
+    "[com.alibaba.nacos]": ERROR
+    tracer: trace # 开启trace级别日志,在开发时可以开启此配置,则控制台可以打印es全部请求信息及DSL语句,为了避免重复,开启此项配置后,可以将EE的print-dsl设置为false.
+
+spring:
+  application:
+    name: iotservice
+  # 项目环境
+  env: local
+  cloud:
+    gateway:
+      discovery:
+        locator:
+          lower-case-service-id: true
+          enabled: true
+    nacos:
+      discovery:
+        server-addr: 39.108.209.226:8848
+        namespace: 25bd35ca-4bcf-403c-a0fe-4bea97a8e711
+  redis:
+    host: 119.23.214.109 #Redis服务器地址
+    database: 1 # Redis数据库索引（默认为0）
+    port: 30004 # Redis服务器连接端口
+    password: 123456 # Redis服务器连接密码（默认为空）
+    prefix: fsv2_local
+    jedis:
+      pool:
+        max-active: 8 # 连接池最大连接数（使用负值表示没有限制）
+        max-wait: -1 # 连接池最大阻塞等待时间（使用负值表示没有限制）
+        max-idle: 8 # 连接池中的最大空闲连接
+        min-idle: 0 # 连接池中的最小空闲连接
+
+  datasource:
+    url: jdbc:mysql://39.108.209.226:3306/mqtt?useSSL=false&serverTimezone=GMT%2b8
+    username: fujica
+    password: fujicaV2@2024
+
+
+#指定mybatis映射文件的地址
+mybatis:
+  mapper-locations: classpath:mapper/*.xml
+
+# E7&E8 MQTT配置信息
+offline:
+  mqtt:
+    # MQTT服务器内网地址
+    inner-url: tcp://120.78.79.55:1883
+    # MQTT服务器外网地址
+    outer-url: tcp://120.78.79.55:1883
+    # 用户名
+    username: iot_fujica
+    # 密码
+    password: iot_fujica
+    # 启动生产者客户端数量
+    publish-client-count: 5
+    # 启动消费者客户端数量
+    consumer-client-count: 5
+    # 订阅主题
+    sub-topics: "$share/group/device/+/message/up/#;$share/group/device/+/message/down/+/reply" 
+    # emqx回调请求所携带鉴权信息
+    webhook-token: b6e2707c449d11efbe390c42a1e7eb3a
+
+rocketmq:
+  name-server: 120.77.181.137:9876
+  producer:
+    group: fujica-producer
