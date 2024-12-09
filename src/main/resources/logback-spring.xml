@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+    <logger name="org.springframework.web" level="INFO" />
+    <property name="LOG_HOME" value="log" />
+    <!--设置系统日志目录-->
+    <property name="APPDIR" value="wookit" />
+
+
+    <!-- 定制日志 -->
+    <logger name="ch.qos.logback" level="WARN"/>
+    <logger name="org.apache" level="WARN"/>
+    <logger name="org.apache.catalina.startup.DigesterFactory" level="OFF"/>
+    <logger name="org.hibernate" level="WARN"/>
+    <logger name="org.mybatis.spring.transaction" level="OFF" additivity="false"/>
+    <logger name="org.springframework.orm.jpa" level="INFO" additivity="false"/>
+    <logger name="org.mybatis.spring.SqlSessionUtils" level="INFO" additivity="false"/>
+    <logger name="org.springframework.jdbc.datasource.DataSourceUtils" level="INFO" additivity="false"/>
+    <logger name="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping" level="ERROR"
+            additivity="false"/>
+    <logger name="springfox.documentation.spring.web.readers.operation.CachingOperationNameGenerator" level="ERROR"
+            additivity="false"/>
+    <logger name="org.springframework.data.repository.config.RepositoryConfigurationExtensionSupport" level="ERROR"
+            additivity="false"/>
+    <logger name="org.elasticsearch.client" level="WARN"
+            additivity="false"/>
+    <!--nacos 一直刷-->
+    <logger name="c.n.d.shared.resolver.aws.ConfigClusterResolver" level="INFO"
+            additivity="false"/>
+
+    <appender name="consoleAppender" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+            <Pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread]%X{traceId}   %-5level %logger{50} - %msg%n</Pattern>
+        </encoder>
+    </appender>
+
+    <!-- 注意这里一定要放到springProfile里, 否则在你本机执行的时候还是会去找相应的文件 -->
+    <appender name="FILE_INFO"  class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${LOG_HOME}/${APPDIR}/log_info.log</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <!--日志文件输出的文件名-->
+            <FileNamePattern>${LOG_HOME}/${APPDIR}/log_info_%d{yyyy-MM-dd}.log</FileNamePattern>
+            <!--日志文件保留天数-->
+            <maxHistory>2</maxHistory>
+            <totalSizeCap>2GB</totalSizeCap>
+        </rollingPolicy>
+        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread]%X{traceId}   %-5level %logger{50} - %msg%n</pattern>
+        </encoder>
+    </appender>
+    <!-- 注意这里一定要放到springProfile里, 否则在你本机执行的时候还是会去找相应的文件 -->
+    <appender name="FILE_PRINTER_INFO" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${LOG_HOME}/${APPDIR}/log_printer_info.log</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <!--日志文件输出的文件名-->
+            <FileNamePattern>${LOG_HOME}/${APPDIR}/log_printer_info_%d{yyyy-MM-dd}.log</FileNamePattern>
+            <!--日志文件保留天数-->
+            <maxHistory>2</maxHistory>
+            <totalSizeCap>2GB</totalSizeCap>
+        </rollingPolicy>
+        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %file %-5level %logger{50} - %msg%n</pattern>
+        </encoder>
+    </appender>
+    <appender name="FILE_FEIBIT_INFO" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${LOG_HOME}/${APPDIR}/log_feibit_info.log</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <!--日志文件输出的文件名-->
+            <FileNamePattern>${LOG_HOME}/${APPDIR}/log_feibit_info_%d{yyyy-MM-dd}.log</FileNamePattern>
+            <!--日志文件保留天数-->
+            <maxHistory>2</maxHistory>
+            <totalSizeCap>2GB</totalSizeCap>
+        </rollingPolicy>
+        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %file %-5level %logger{50} - %msg%n</pattern>
+        </encoder>
+    </appender>
+    <appender name="FILE_AMMETER_INFO" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${LOG_HOME}/${APPDIR}/log_ammeter_info.log</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <!--日志文件输出的文件名-->
+            <FileNamePattern>${LOG_HOME}/${APPDIR}/log_ammeter_info_%d{yyyy-MM-dd}.log</FileNamePattern>
+            <!--日志文件保留天数-->
+            <maxHistory>2</maxHistory>
+            <totalSizeCap>2GB</totalSizeCap>
+        </rollingPolicy>
+        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %file %-5level %logger{50} - %msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <appender name="FILE_DETECTOR_INFO" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${LOG_HOME}/${APPDIR}/log_detector_info.log</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <!--日志文件输出的文件名-->
+            <FileNamePattern>${LOG_HOME}/${APPDIR}/log_detector_info_%d{yyyy-MM-dd}.log</FileNamePattern>
+            <!--日志文件保留天数-->
+            <maxHistory>2</maxHistory>
+            <totalSizeCap>2GB</totalSizeCap>
+        </rollingPolicy>
+        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread]%X{traceId}   %file %-5level %logger{50} - %msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <appender name="FILE_ERROR"  class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${LOG_HOME}/${APPDIR}/log_error.log</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <!--日志文件输出的文件名-->
+            <FileNamePattern>${LOG_HOME}/${APPDIR}/log_error_%d{yyyy-MM-dd}.log</FileNamePattern>
+            <!--日志文件保留天数-->
+            <maxHistory>2</maxHistory>
+            <totalSizeCap>2GB</totalSizeCap>
+        </rollingPolicy>
+        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread]%X{traceId}   %-5level %logger{50} - %msg%n</pattern>
+        </encoder>
+        <filter class="ch.qos.logback.classic.filter.LevelFilter">
+            <level>ERROR</level>
+            <onMatch>ACCEPT</onMatch>
+            <onMismatch>DENY</onMismatch>
+        </filter>
+    </appender>
+
+    <root level="${logging.level.root}">
+        <appender-ref ref="FILE_ERROR"/>
+        <appender-ref ref="FILE_INFO"/>
+        <appender-ref ref="consoleAppender" />
+    </root>
+    <logger name="PRINTER" additivity="false">
+        <appender-ref ref="FILE_PRINTER_INFO"/>
+    </logger>
+    <logger name="FEIBIT" additivity="false" >
+        <appender-ref ref="FILE_FEIBIT_INFO"/>
+    </logger>
+    <logger name="AMMETER" additivity="false">
+        <appender-ref ref="FILE_AMMETER_INFO"/>
+    </logger>
+    <logger name="DETECTOR" additivity="false">
+        <appender-ref ref="FILE_DETECTOR_INFO"/>
+    </logger>
+</configuration>

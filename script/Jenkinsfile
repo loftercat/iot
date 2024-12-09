@@ -1,0 +1,48 @@
+pipeline {
+    agent any
+    parameters {
+        gitParameter (branch:'', branchFilter: 'origin/(.*)', defaultValue: 'master', description: '选择将要构建的分支', name: 'branch', selectedValue: 'TOP', sortMode: 'DESCENDING_SMART', type: 'PT_BRANCH')
+        gitParameter (branch:'', branchFilter: 'origin/(.*)', defaultValue: 'V1.0.0', description: '选择将要构建的TAG', name: 'tag', quickFilterEnabled: true, selectedValue: 'TOP', sortMode: 'DESCENDING_SMART', type: 'PT_TAG')
+    //         gitParameter (branch:'', branchFilter: 'origin/(.*)', defaultValue: 'master', description: '选择将要构建的分支或标签', name: 'tag', selectedValue: 'TOP', sortMode: 'DESCENDING_SMART', type: 'PT_BRANCH_TAG')
+    }
+
+    stages {
+        stage('Checkout') {
+            steps {
+                echo '1.Checkout'
+                checkout([$class: 'GitSCM',
+                                         branches: [[name: "${params.tag}"]],
+                                         doGenerateSubmoduleConfigurations: false,
+                                         extensions: [],
+                                         gitTool: 'Default',
+                                         submoduleCfg: [],
+                                         userRemoteConfigs: [[url: 'http://119.23.214.109:30032/fsadmin/gateway.git',credentialsId: 'git',]]
+                                       ])
+
+            }
+        }
+        stage('Build') {
+            steps {
+                echo '2.Building'
+                 sh 'mvn clean install -P dev -Dmaven.test.skip=true'
+
+            }
+        }
+        stage('Docker') {
+            steps {
+                echo '3.Docker'
+                sh 'chmod 777 script/build_docker.sh'
+                sh "script/build_docker.sh iotservice dev ${tag}"
+
+            }
+        }
+        stage('Deploy') {
+            steps {
+                echo '4.Deploying'
+                sh 'chmod 777 script/deploy_k8s.sh'
+                sh "script/deploy_k8s.sh fstime dev iotservice:${tag}"
+
+            }
+        }
+    }
+}
